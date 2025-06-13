@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.RestApiMvc.Dto.userDto;
 import com.RestApiMvc.entity.User;
 import com.RestApiMvc.service.userService;
 
@@ -29,28 +30,28 @@ public class userController {
 
 	// build create user resat api 
 	@PostMapping
-	public ResponseEntity<User> createuser(@RequestBody User user) {
-		User savedUser = userservice.createUser(user);
+	public ResponseEntity<userDto> createuser(@RequestBody userDto user) {
+		userDto savedUser = userservice.createUser(user);
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
 	// build get user by id Rest Api
 	@GetMapping("{id}")
-	public ResponseEntity<User> getUserById(@PathVariable("id") Long userId) {
-		User user= userservice.getUserById(userId);
+	public ResponseEntity<userDto> getUserById(@PathVariable("id") Long userId) {
+		userDto user= userservice.getUserById(userId);
 		return new ResponseEntity<>(user,HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<User>> getAllUser(){
-		List<User> allUser=userservice.getAllUser();
+	public ResponseEntity<List<userDto>> getAllUser(){
+		List<userDto> allUser=userservice.getAllUser();
 		return new ResponseEntity<>(allUser,HttpStatus.OK);
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<User> updateUser( @PathVariable ("id") Long UserId ,
-		@RequestBody	User user){
+	public ResponseEntity<userDto> updateUser( @PathVariable ("id") Long UserId ,
+		@RequestBody	userDto user){
 	 	user.setId(UserId);
-		User updatedUser=userservice.updateUser(user);
+		userDto updatedUser=userservice.updateUser(user);
 		return new ResponseEntity<>(updatedUser,HttpStatus.OK);
 	}
 	
