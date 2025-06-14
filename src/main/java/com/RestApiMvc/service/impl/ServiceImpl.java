@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.RestApiMvc.Dto.userDto;
@@ -21,14 +22,20 @@ import lombok.AllArgsConstructor;
 public class ServiceImpl implements userService {
 
 	private UserRepository userRepository;
+	private ModelMapper modelMapper;
 
 	@Override
 	public userDto createUser(userDto userDto) {
 		// convert userdto into jpa entity
-		User user =userMapper.maptoUser(userDto);
+	//	User user =userMapper.maptoUser(userDto);
+		User user =modelMapper.map(userDto, User.class);
 		User savedUser = userRepository.save(user);
+		
 		// convert user jpa to userdto entity
-		userDto saveduserDto = userMapper.maptoserDto(savedUser);
+		//userDto saveduserDto = userMapper.maptoserDto(savedUser);
+		userDto saveduserDto=modelMapper.map(savedUser, userDto.class);
+		
+		
 		return saveduserDto;
 	}
 
@@ -37,13 +44,15 @@ public class ServiceImpl implements userService {
 
 		Optional<User> optinalUser = userRepository.findById(UserId);
 		User user= optinalUser.get();
-		return userMapper.maptoserDto(user);
+		//return userMapper.maptoserDto(user);
+		return modelMapper.map(user, userDto.class);
 	}
 
 	@Override
 	public List<userDto> getAllUser() {
-		 List<User> user =userRepository.findAll();
-		 return user.stream().map(userMapper::maptoserDto).collect(Collectors.toList());
+		 List<User> users =userRepository.findAll();
+		// return users.stream().map(userMapper::maptoserDto).collect(Collectors.toList());
+		 return users.stream().map((user)->modelMapper.map(user, userDto.class)).collect(Collectors.toList());
 
 	}
 
@@ -55,7 +64,8 @@ public class ServiceImpl implements userService {
 		existingUser.setEmail(user.getEmail());
 		User updatesUser = userRepository.save(existingUser);
 		
-		return userMapper.maptoserDto(updatesUser);
+		//return userMapper.maptoserDto(updatesUser);
+		return modelMapper.map(updatesUser, userDto.class);
 	}
 
 	@Override
