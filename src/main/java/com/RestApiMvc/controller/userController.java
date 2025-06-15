@@ -23,6 +23,7 @@ import com.RestApiMvc.Exception.ResourceNotFoundException;
 import com.RestApiMvc.entity.User;
 import com.RestApiMvc.service.userService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -36,7 +37,7 @@ public class userController {
 
 	// build create user resat api
 	@PostMapping
-	public ResponseEntity<userDto> createuser(@RequestBody userDto user) {
+	public ResponseEntity<userDto> createuser(@Valid @RequestBody userDto user) {
 		userDto savedUser = userservice.createUser(user);
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
@@ -55,7 +56,7 @@ public class userController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<userDto> updateUser(@PathVariable("id") Long UserId, @RequestBody userDto user) {
+	public ResponseEntity<userDto> updateUser(@PathVariable("id") Long UserId, @RequestBody @Valid userDto user) {
 		user.setId(UserId);
 		userDto updatedUser = userservice.updateUser(user);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
