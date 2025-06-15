@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ErrorDetails {
 	private LocalDateTime timestamp;
 	private String message;
-	private  String path;
+	private String path;
 	private String errorcode;
 	
 }
