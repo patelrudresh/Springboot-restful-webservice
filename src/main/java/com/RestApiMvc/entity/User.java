@@ -27,5 +27,5 @@ public class User {
 		@Column(nullable=false)
 	String lastName;
 		@Column(nullable = false,unique = true)
-	String Email;
+	String email;
 }
